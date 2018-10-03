@@ -23,8 +23,7 @@ build
 *.sqlite
 
 # Logs:
-logs/
-*.log
+*.log*
 
 # Environment variables
 local.env
