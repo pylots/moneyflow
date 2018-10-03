@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+
+<!-- Benefits of the Django application -->
+{% block container %}
+
+<div class="container">
+  <h1 class="text-primary">Edit Profile</h1>
+  <hr>
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-3">
+      <h3>Personal info</h3>
+    </div>
+      
+    <!-- edit form column -->
+    <div class="col-md-9">
+      <form enctype="multipart/form-data" method="post">
+	{% crispy user_form %}
+	{% crispy profile_form %}
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <a class="btn btn-default btn-inverse pull-right" href="{% url 'account_email' %}">Change E-mail</a>
+      <a class="btn btn-default btn-inverse pull-right" href="{% url 'account_change_password' %}">Change Password</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+

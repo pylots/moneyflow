@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ block.super }}Home{% endblock %}
+
+{% block splash %}
+<div class="jumbotron jumbotron-carousel corporate-jumbo">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-sm-8">
+        <h1>{% include "_brandname.html" %}</h1>
+        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+	<a class="btn btn-primary" href="{% url 'account_login' %}" role="button">Log in</a>
+	<a href="{% url 'account_signup' %}" role="button">or Sign up, it's free</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock splash %}
+
+

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" value="en-US" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="{% block description %}{% endblock description %}">
+    <meta name="author" content="mikerene">
+    <link rel="shortcut icon" href="{% static 'site/ico/favicon.ico' %}">
+
+    <title>{% block title %}{% include "_brandname.html" %} :: {% endblock %}</title>
+
+    <!-- Custom styles for this site -->
+    {% block styles %}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
+    <link href="{% static 'theme/css/toolkit-inverse.css' %}" rel="stylesheet">
+    <link href="{% static 'theme/css/application.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'site/css/main.css' %}" rel="stylesheet"> -->
+    {% endblock %}
+    <!-- Custom tags for the head tag -->
+    {% block extrahead %}{% endblock extrahead %}
+  </head>
+  <body>
+    {% block navbar %}
+    <div class="with-iconav">
+      <nav class="iconav">
+        <a class="iconav-brand" href="/">
+          <img src="{% static 'site/img/logo.png' %}" height=60 />
+        </a>
+        <div class="iconav-slider">
+          <ul class="nav nav-pills iconav-nav flex-md-column">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="/" title="Likes"  data-toggle="tooltip" data-placement="right" data-container="body">
+                <span class="fa fa-thumbs-up"></span>
+                <div id="like-count-{{ user.id }}">0</div>
+              <small class="iconav-nav-label d-md-none">Likes</small>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link {% if '/friends/list' in request.path %} active {% endif %}" href="{% url 'friends:list' %}" title="Friends" data-toggle="tooltip" data-placement="right" data-container="body">
+                <span class="fa fa-arrow-left"></span>
+                <small class="iconav-nav-label d-md-none">Friends</small>
+              </a>
+            </li>
+            {% if user.is_staff %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin:index' %}" title="Admin" data-toggle="tooltip" data-placement="right" data-container="body">
+                <span class="fa fa-cogs"></span>
+                <small class="iconav-nav-label d-md-none">Admin</small>
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link {% if '/users/me/' in request.path %} active {% endif %}" href="{% url 'profiles:show_self' %}" title="Signed in as {{ show_user.get_full_name }}" data-toggle="tooltip" data-placement="right" data-container="body">
+                <img src="{% static 'theme/img/avatar-mdo.png' %}" alt="" class="rounded-circle">
+                <small class="iconav-nav-label d-md-none">@mdo</small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_logout' %}" title="Log off" data-toggle="tooltip" data-placement="right" data-container="body">
+                <span class="fa fa-power-off"></span>
+                <small class="iconav-nav-label d-md-none">Log off</small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" title="Log in" data-toggle="tooltip" data-placement="right" data-container="body">
+                <span class="fa fa-key"></span>
+                <small class="iconav-nav-label d-md-none">Log in</small>
+              </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_login' %}" title="Log in" data-toggle="tooltip" data-placement="right" data-container="body">
+                <span class="fa fa-sign-in-alt"></span>
+                <small class="iconav-nav-label d-md-none">Log in</small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_signup' %}" title="Signup" data-toggle="tooltip" data-placement="right" data-container="body">
+                <span class="fa fa-user-plus"></span>
+                <small class="iconav-nav-label d-md-none">Signup</small>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+      {% endblock navbar %}
+
+      {% block header %}
+      {% endblock %}
+      
+      {% block messages %}
+      {% if messages %}
+      <div class="container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">  <!-- singular -->
+          <a class="close" data-dismiss="alert">×</a>
+          {{ message|safe }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endblock %}
+      
+      {% block container %}
+      <div class="container">
+        {% block splash %}
+        {% endblock splash %}
+    
+        <div class="row">
+          <div class="col-md-10 content">
+            {%  block content %}
+            {%  endblock %}
+          </div>
+          <div class="col-md-2 sidebar">
+            {%  block sidebar %}
+            {%  endblock %}
+          </div>
+        </div>
+      </div>
+      {% endblock container %}
+
+      {% block footer %}
+      {% endblock %}
+
+    </div>
+    {% block extra_body %}
+    {% endblock %}
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'theme/js/jquery.min.js' %}"></script>
+    <script src="{% static 'theme/js/popper.min.js' %}"></script>
+    <script src="{% static 'theme/js/chart.js' %}"></script>
+    <script src="{% static 'theme/js/tablesorter.min.js' %}"></script>
+    <script src="{% static 'theme/js/toolkit.js' %}"></script>
+    <script src="{% static 'theme/js/application.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>    <script>
+      // execute/clear BS loaders for docs
+      $(function(){while(window.BS&&window.BS.loader&&window.BS.loader.length){(window.BS.loader.pop())()}})
+    </script>
+    {% block scripts %}
+    {% endblock scripts %}
+  </body>
+<script>
+    var ws = new WebSocket('ws://' + window.location.host + '/ws/like/{{ user.id }}/');
+
+    ws.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var userid = data['userid'];
+        count = parseInt(document.getElementById('like-count-' + userid).innerHTML)
+        document.getElementById('like-count-' + userid).innerHTML = (count + 1);
+    };
+
+    ws.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+  function likesubmit(id) {
+        ws.send(JSON.stringify({
+            'like': id
+        }));
+
+  }
+</script>
+</html>
+
+

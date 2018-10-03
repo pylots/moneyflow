@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block container %}
+<div class="container">
+    <div class="col-md-12 content">
+        <div class="dashhead">
+            <div class="dashhead-titles">
+                <h2 class="dashhead-title">{{ user.name }}'s friends</h2>
+            </div>
+        </div>
+
+    <div class="table-responsive">
+      <table class="table" data-sort="table">
+        <thead>
+          <tr>
+            <th>Likes</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Bio</th>
+            <th>Groups</th>
+            <th>Like</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for friend in friends %}
+          <tr>
+            <td><div id="like-count-{{ friend.id }}">0</div></td>
+            <td>{{ friend.name }}</td>
+            <td>{{ friend.email }}</td>
+            <td>{{ friend.profile.bio }}</td>
+            <td>{% for group in groups %}{{group}}&nbsp;{% endfor %}
+            <td><a href="#" onclick=likesubmit({{friend.id}})><i class="fa fa-thumbs-up"></i></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+    {% if candidates %}
+    <div class="col-md-12 content">
+        <div class="dashhead">
+            <div class="dashhead-titles">
+                <h2 class="dashhead-title">Add some new friends</h2>
+            </div>
+        </div>
+
+    <div class="table-responsive">
+      <table class="table" data-sort="table">
+        <thead>
+          <tr>
+            <th>Likes</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Bio</th>
+            <th>Add</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for candidate in candidates %}
+          <tr>
+            <td><div id="like-count-{{ candidate.id }}">0</div></td>
+            <td>{{ candidate.name }}</td>
+            <td>{{ candidate.email }}</td>
+            <td>{{ candidate.profile.bio }}</td>
+            <td>
+              <div class="btn-group">
+                <a href="{% url 'friends:create' candidate.id %}">
+                  <button type="button" class="btn btn-outline-primary">
+                    <span class="fa fa-plus"></span>
+                  </button>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    {% if requests %}
+    <div class="col-md-12 content">
+        <div class="dashhead">
+            <div class="dashhead-titles">
+                <h2 class="dashhead-title">Friend requests</h2>
+            </div>
+        </div>
+
+    <div class="table-responsive">
+      <table class="table" data-sort="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Bio</th>
+            <th>Accept</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for request in requests %}
+          <tr>
+            <td>{{ request.from_user.name }}</td>
+            <td>{{ request.from_user.email }}</td>
+            <td>{{ request.from_user.profile.bio }}</td>
+            <td>
+              <div class="btn-group">
+                <a href="{% url 'friends:accept' request.id %}">
+                  <button type="button" class="btn btn-outline-primary">
+                    <span class="fa fa-check"></span>
+                  </button>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+
+  </div>
+</div>
+{% endblock %}
