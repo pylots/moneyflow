@@ -24,8 +24,10 @@ Run migrations (if needed)
     $ python manage.py migrate
 
 Start redis
+
     $ docker run -p 6379:6379 -d redis:2.8
 
 Start Server
+
     $ python manage.py runserver
 
